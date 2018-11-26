@@ -4,6 +4,8 @@ import (
 	"github.com/faiface/mainthread"
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/pkg/errors"
+	"github.com/faiface/pixel"
+	"github.com/faiface/pixel/pixelgl"
 )
 
 // Run is essentially the main function of PixelGL. It exists mainly due to the technical
@@ -30,4 +32,20 @@ func Run(run func()) {
 	}
 	defer glfw.Terminate()
 	mainthread.Run(run)
+}
+func main() {
+	pixelgl.Run(run)
+}
+func run() {
+	cfg := pixelgl.WindowConfig{
+		Title: "Pixel Rocks!"
+		Bounds: pixel.R(0, 0, 1024, 768)
+	}
+	win, err := pixelgl.NewWindow(cfg)
+	if err != nil {
+		panic(err)
+	}
+	for !win.Closed() {
+		win.Update()
+	}
 }
